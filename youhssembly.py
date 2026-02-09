@@ -101,10 +101,6 @@ def YSM(mem: list, acc: list,code: str):
                 if len(line_params) == 2 and 0 <= int(line_params[0]) <= len(mem) and 0 <= int(line_params[1]) <= int_limit:
                     mem[int(line_params[0])] -= int(line_params[1])
             
-            if line_inst == "SAY":
-                if len(line_params) == 1 and 0 <= int(line_params[0]) <= len(mem):
-                    print(mem[int(line_params[0])])
-            
             if line_inst == "ECHO":
                 say = ""
                 for kw in line_params:
