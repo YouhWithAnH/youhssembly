@@ -134,7 +134,7 @@ def YSM(mem: list, acc: list,code: str):
             if line_inst == "ECHO":
                 say = ""
                 for kw in line_params:
-                    say += (kw + " ")
+                    say += (str(kw) + " ")
                 print(say)
             
             if line_inst == "CHR":
