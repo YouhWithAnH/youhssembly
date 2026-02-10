@@ -102,12 +102,21 @@ def YSM(mem: list, acc: list,code: str):
                 # WHILE <addr> <kw> <value>
                 if len(line_params) == 3 and 0 <= int(line_params[0]) <= len(mem) and line_params[1] in KWS and 0 <= int(line_params[2]) <= int_limit:
                     cond = check_cond()
+                    p = 0
+                    while p < len(split_code):
+                        if split_code[p].split(" ")[0] == "WHILEND" and split_code[p].split(" ")[1] == line_params[0] and cond == False:
+                            i = p-1
+                            break
+                        p += 1
             
             if line_inst == "WHILEND":
                 if len(line_params) == 1 and 0 <= int(line_params[0]) <= len(mem):
-                    for line in split_code:
-                        if line.split(" ")[0] == "WHILE" and line.split(" ")[1] == line_params[0] and cond == True:
-                            i = line.index(line.split(" ")[0])
+                    p = 0
+                    while p < len(split_code):
+                        if split_code[p].split(" ")[0] == "WHILE" and split_code[p].split(" ")[1] == line_params[0] and cond == True:
+                            i = p-1
+                            break
+                        p += 1
                         
         
                         
