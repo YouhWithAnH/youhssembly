@@ -13,8 +13,8 @@ def YSM(mem: list, acc: list,code: str):
     i = 0
     start_time = time.perf_counter()
     split_code = code.split("\n")
-    OPCODES = ["REG","MOV","LDA","STA","ADD","MLT","DIV","SAY","ECHO","SUB","CHR","WHILE","WHILEND"]
-    KWS = ["GRT","LST","EQL","NEQL","GEQL","SEQL"]
+    OPCODES = ["REG","MOV","LDA","STA","ADD","MLT","DIV","SAY","ECHO","SUB","CHR","WHILE","WHILEND","EXP","READ"]
+    KWS = ["EQL","NEQL"]
     digits = range(9)
     cond = False
     int_limit = 2 ** 1024
@@ -61,6 +61,12 @@ def YSM(mem: list, acc: list,code: str):
             if line_inst == "MOV":
                 if len(line_params) == 2 and 0 <= int(line_params[0]) <= len(mem) and 0 <= int(line_params[1]) <= len(mem):
                     mem[int(line_params[1])] = mem[int(line_params[0])]
+
+            if line_inst == "READ":
+                if len(line_params) == 1 and 0 <= int(line_params[0]) <= len(mem):
+                    read = input()
+                    if 0 <= int(read) <= int_limit:
+                        mem[int(line_params[0])] = int(read)
             
             if line_inst == "LDA":
                 if len(line_params) == 1 and 0 <= int(line_params[0]) <= int_limit:
@@ -78,6 +84,12 @@ def YSM(mem: list, acc: list,code: str):
                 if len(line_params) == 2 and 0 <= int(line_params[0]) <= len(mem) and 0 <= int(line_params[1]) <= int_limit: # if valid byte and enough params
                     ad_mem = int(mem[int(line_params[0])])
                     ad_mem *= int(line_params[1])
+                    mem[int(line_params[0])] = ad_mem
+            
+            if line_inst == "EXP":
+                if len(line_params) == 2 and 0 <= int(line_params[0]) <= len(mem) and 0 <= int(line_params[1]) <= int_limit: # if valid byte and enough params
+                    ad_mem = int(mem[int(line_params[0])])
+                    ad_mem **= int(line_params[1])
                     mem[int(line_params[0])] = ad_mem
             
             if line_inst == "DIV":
@@ -99,7 +111,6 @@ def YSM(mem: list, acc: list,code: str):
                     print(chr(mem[line_params[0]]))
             
             if line_inst == "WHILE":
-                # WHILE <addr> <kw> <value>
                 if len(line_params) == 3 and 0 <= int(line_params[0]) <= len(mem) and line_params[1] in KWS and 0 <= int(line_params[2]) <= int_limit:
                     cond = check_cond()
                     p = 0
@@ -117,12 +128,6 @@ def YSM(mem: list, acc: list,code: str):
                             i = p-1
                             break
                         p += 1
-                        
-        
-                        
-                        
-
-
         ########
         # formatter
         ########
