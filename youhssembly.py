@@ -18,7 +18,6 @@ def YSM(mem: list, acc: list,code: str):
     digits = range(9)
     cond = False
     int_limit = 2 ** 1024
-    chr_output = ""
 
     ########
     # lexer
@@ -51,6 +50,11 @@ def YSM(mem: list, acc: list,code: str):
                                 line_params[line_params.index(param)] = mem[int(param[1:])]
                         elif param == "$ACC":
                             line_params[line_params.index(param)] = acc[0]
+                        elif param[0] == "#" and not param == "#ACC":
+                            if line_inst != "STA" or line_inst != "LDA":
+                                line_params[line_params.index(param)] = len(str(mem[int(param[1:])]))
+                        elif param == "#ACC":
+                            line_params[line_params.index(param)] = len(str(acc[0]))
                         else:
                             if param[1:] in digits:
                                 param = int(param)
@@ -74,8 +78,8 @@ def YSM(mem: list, acc: list,code: str):
             
             if line_inst == "STA":
                 if len(line_params) == 1 and 0 <= int(line_params[0]) <= len(mem):
-            
                     mem[int(line_params[0])] = int(acc[0])
+            
             if line_inst == "ADD":
                 if len(line_params) == 2 and 0 <= int(line_params[0]) <= len(mem) and 0 <= int(line_params[1]) <= int_limit: # if valid byte and enough params
                     mem[int(line_params[0])] += int(line_params[1])
