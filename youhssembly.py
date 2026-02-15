@@ -14,7 +14,7 @@ def YSM(mem: list, acc: list,code: str):
     start_time = time.perf_counter()
     split_code = code.split("\n")
     OPCODES = ["REG","MOV","LDA","STA","ADD","MLT","DIV","SAY","ECHO","SUB","CHR","WHILE","WHILEND","EXP","READ"]
-    KWS = ["EQL","NEQL"]
+    KWS = ["EQL","NEQL","GRT","LST","GEQL","LEQL"]
     digits = range(9)
     cond = False
     int_limit = 2 ** 1024
@@ -33,9 +33,16 @@ def YSM(mem: list, acc: list,code: str):
         def check_cond():                
             if line_params[1] == "EQL":
                 return int(mem[int(line_params[0])]) == int(line_params[2])
-                
             elif line_params[1] == "NEQL":
                 return int(mem[int(line_params[0])]) != int(line_params[2])
+            elif line_params[1] == "GRT":
+                return int(mem[int(line_params[0])]) > int(line_params[2])
+            elif line_params[1] == "LST":
+                return int(mem[int(line_params[0])]) < int(line_params[2])
+            elif line_params[1] == "GEQL":
+                return int(mem[int(line_params[0])]) >= int(line_params[2])
+            elif line_params[1] == "LEQL":
+                return int(mem[int(line_params[0])]) <= int(line_params[2])
             else:
                 raise ValueError("Incorrect WHILE condition")
                 
